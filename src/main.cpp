@@ -1,3 +1,5 @@
+#include "state.h"
+#include "mainmenu.h"
 #include <SFML/Graphics.hpp>
 
 int main()
@@ -8,6 +10,9 @@ int main()
 
   sf::Font lato{  };
   lato.loadFromFile("font/Lato-Regular.ttf");
+
+  State state{ State::MainMenu };
+  MainMenu mainMenu{ lato };
 
   sf::Event event{  };
   
@@ -28,7 +33,18 @@ int main()
 
     window.clear();
 
+    switch(state)
+    {
+      case State::MainMenu:
+        mainMenu.run(window);
+      break;
 
+      case State::QuizSelect:
+      case State::Quiz:
+      case State::Credits:
+      case State::Options:
+      break;
+    }
 
     window.display();
   }
