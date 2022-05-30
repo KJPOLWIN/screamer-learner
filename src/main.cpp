@@ -6,6 +6,9 @@ int main()
   window.setFramerateLimit(60);
   window.setKeyRepeatEnabled(true);
 
+  sf::Font lato{  };
+  lato.loadFromFile("font/Lato-Regular.ttf");
+
   sf::Event event{  };
   
   while(window.isOpen())
