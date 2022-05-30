@@ -30,6 +30,16 @@ int main()
       {
         window.close();
       }
+      else if(event.type == sf::Event::MouseButtonReleased
+          && event.mouseButton.button == sf::Mouse::Left)
+      {
+        sf::Vector2i clickPosition{ sf::Mouse::getPosition(window) };
+
+        if(state == State::MainMenu)
+        {
+          mainMenu.clickInput(clickPosition, state);
+        }
+      }
     }
 
     window.clear(Style::backgroundColor);
@@ -44,6 +54,10 @@ int main()
       case State::Quiz:
       case State::Credits:
       case State::Options:
+      break;
+
+      case State::Exit:
+        window.close();
       break;
     }
 

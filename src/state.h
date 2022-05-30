@@ -7,7 +7,8 @@
     QuizSelect,
     Quiz,
     Credits,
-    Options
+    Options,
+    Exit
   };
 
 #endif

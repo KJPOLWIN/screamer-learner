@@ -10,7 +10,7 @@ ENDIF()
 
 find_package(SFML 2.5.1 REQUIRED network audio graphics window system)
 
-add_executable(screamer-learner src/main.cpp src/mainmenu.cpp)
+add_executable(screamer-learner src/main.cpp src/mainmenu.cpp src/textbutton.cpp)
 
 target_compile_options(screamer-learner PUBLIC -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion)
 target_include_directories(screamer-learner PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${SFML_INCLUDE_DIR})
