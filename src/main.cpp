@@ -1,5 +1,6 @@
 #include "state.h"
 #include "mainmenu.h"
+#include "style.h"
 #include <SFML/Graphics.hpp>
 
 int main()
@@ -31,7 +32,7 @@ int main()
       }
     }
 
-    window.clear();
+    window.clear(Style::backgroundColor);
 
     switch(state)
     {
