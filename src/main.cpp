@@ -1,5 +1,7 @@
 #include "state.h"
 #include "mainmenu.h"
+#include "options.h"
+#include "quizselect.h"
 #include "style.h"
 #include <SFML/Graphics.hpp>
 
@@ -14,6 +16,8 @@ int main()
 
   State state{ State::MainMenu };
   MainMenu mainMenu{ lato };
+  Options options{ lato };
+  QuizSelect quizSelect{ lato };
 
   sf::Event event{  };
   
@@ -39,6 +43,14 @@ int main()
         {
           mainMenu.clickInput(clickPosition, state);
         }
+        else if(state == State::Options)
+        {
+          options.clickInput(clickPosition, state);
+        }
+        else if(state == State::QuizSelect)
+        {
+          quizSelect.clickInput(clickPosition, state);
+        }
       }
     }
 
@@ -51,9 +63,15 @@ int main()
       break;
 
       case State::QuizSelect:
+        quizSelect.run(window);
+      break;
+
       case State::Quiz:
       case State::Credits:
+      break;
+
       case State::Options:
+        options.run(window);
       break;
 
       case State::Exit:

@@ -43,6 +43,6 @@ void MainMenu::run(sf::RenderWindow& window)
   window.draw(title);
   startButton.draw(window);
   optionsButton.draw(window);
-  creditsButton.draw(window);
+  //creditsButton.draw(window);
   exitButton.draw(window);
 }
