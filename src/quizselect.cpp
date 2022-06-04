@@ -20,6 +20,7 @@ void QuizSelect::clickInput(sf::Vector2i clickPosition, State& state)
 {
   if(startButton.isClicked(clickPosition))
   {
+
     state = State::Quiz;
   }
   else if(backButton.isClicked(clickPosition))

@@ -1,0 +1,15 @@
+{
+  "title": "Capital cities (test quiz)",
+  "questions": [
+    {
+      "question": "What is the capital city of France?",
+      "dummyAnswers": ["Berlin", "Rome", "London"],
+      "correctAnswer": "Paris"
+    },
+    {
+      "question": "What is the capital city of Germany?",
+      "dummyAnswers": ["Paris", "Rome", "London"],
+      "correctAnswer": "Berlin"
+    }
+  ]
+}

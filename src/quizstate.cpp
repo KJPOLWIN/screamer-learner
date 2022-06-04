@@ -20,7 +20,9 @@ QuizState::QuizState(sf::Font& font)
   buttons.at(0).setColor(Style::textColor); 
   buttons.at(1).setColor(Style::textColor); 
   buttons.at(2).setColor(Style::textColor); 
-  buttons.at(3).setColor(Style::textColor); 
+  buttons.at(3).setColor(Style::textColor);
+
+  quiz.loadFromFile("quiz/testquiz.json"); 
 }
 
 void QuizState::clickInput(sf::Vector2i clickInput, State& state)
