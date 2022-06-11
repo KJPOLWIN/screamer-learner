@@ -12,7 +12,8 @@ QuizState::QuizState(sf::Font& font)
     buttons{ { TextButton(font, "", sf::Vector2f(100, 500), 50),
                TextButton(font, "", sf::Vector2f(100, 600), 50),
                TextButton(font, "", sf::Vector2f(100, 700), 50),
-               TextButton(font, "", sf::Vector2f(100, 800), 50) } }
+               TextButton(font, "", sf::Vector2f(100, 800), 50) } },
+    questionCounter{ "", font, 50 }
 {
   question.setPosition(100, 100);
 
@@ -22,27 +23,77 @@ QuizState::QuizState(sf::Font& font)
   buttons.at(2).setColor(Style::textColor); 
   buttons.at(3).setColor(Style::textColor);
 
+  questionCounter.setPosition(1700, 50);
+  questionCounter.setColor(Style::textColor);
+
   quiz.loadFromFile("quiz/testquiz.json"); 
+  loadQuestion(currentQuestion);
+
+  questionCounter.setString(std::to_string(currentQuestion + 1) 
+                          + "/" 
+                          + std::to_string(quiz.getQuestionCount()));
 }
 
 void QuizState::clickInput(sf::Vector2i clickInput, State& state)
 {
   if(buttons.at(0).isClicked(clickInput))
   {
-    
+    ++currentQuestion;
+    if(currentQuestion >= quiz.getQuestionCount())
+    {
+      state = State::QuizSelect;
+      reset();
+    }
+    else
+    {
+      loadQuestion(currentQuestion);
+    }
   }
   else if(buttons.at(1).isClicked(clickInput))
   {
+    ++currentQuestion;
+    if(currentQuestion >= quiz.getQuestionCount())
+    {
+      state = State::QuizSelect;
+      reset();
+    }
+    else
+    {
+      loadQuestion(currentQuestion);
+    }
     
   }
   else if(buttons.at(2).isClicked(clickInput))
   {
+    ++currentQuestion;
+    if(currentQuestion >= quiz.getQuestionCount())
+    {
+      state = State::QuizSelect;
+      reset();
+    }
+    else
+    {
+      loadQuestion(currentQuestion);
+    }
     
   }
   else if(buttons.at(3).isClicked(clickInput))
   {
+    ++currentQuestion;
+    if(currentQuestion >= quiz.getQuestionCount())
+    {
+      state = State::QuizSelect;
+      reset();
+    }
+    else
+    {
+      loadQuestion(currentQuestion);
+    }
     
   }
+  questionCounter.setString(std::to_string(currentQuestion + 1) 
+                          + "/" 
+                          + std::to_string(quiz.getQuestionCount()));
 }
 
 void QuizState::run(sf::RenderWindow& window)
@@ -52,4 +103,24 @@ void QuizState::run(sf::RenderWindow& window)
   {
     button.draw(window);
   }
+  window.draw(questionCounter);
+}
+  
+void QuizState::loadQuestion(std::size_t id)
+{
+  question.setString(quiz.getQuestion(id).getQuestion());
+  buttons.at(0).setText(quiz.getQuestion(id).getDummyAnswer(0));
+  buttons.at(1).setText(quiz.getQuestion(id).getDummyAnswer(1));
+  buttons.at(2).setText(quiz.getQuestion(id).getDummyAnswer(2));
+  buttons.at(3).setText(quiz.getQuestion(id).getCorrectAnswer());
+}
+
+void QuizState::reset()
+{
+  quiz.loadFromFile("quiz/testquiz.json");
+  currentQuestion = 0;
+  loadQuestion(currentQuestion);
+  questionCounter.setString(std::to_string(currentQuestion + 1) 
+                          + "/" 
+                          + std::to_string(quiz.getQuestionCount()));
 }

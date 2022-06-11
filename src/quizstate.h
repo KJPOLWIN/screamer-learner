@@ -17,11 +17,16 @@
       void run(sf::RenderWindow& window);
 
     private:
+      void loadQuestion(std::size_t id);
+      void reset();
+
       Quiz quiz{  };
       std::size_t currentQuestion{ 0 };
 
       sf::Text question{  };
       std::vector<TextButton> buttons{  };
+
+      sf::Text questionCounter{  };
   };
 
 #endif

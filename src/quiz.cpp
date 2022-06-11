@@ -24,12 +24,6 @@ void Quiz::loadFromFile(std::string filename)
 
   title = quizData["title"];
   
-  /*auto questionList{ quizData["questions"] };
-  for(auto& question : questionList)
-  {
-    questions.push_back(question["question"], question["dummyAnswers"], question["correctAnswer"]);
-  }*/
-
   std::size_t questionCount{ quizData["questions"].size() };
  
   for(std::size_t iii{ 0 }; iii < questionCount; ++iii)
@@ -39,21 +33,14 @@ void Quiz::loadFromFile(std::string filename)
                                  quizData["questions"][iii]["correctAnswer"]));
     
   }  
-
-  std::cout << title << "\n";
-  std::cout << questionCount << " questions\n\n";
-  int i{ 0 };
-  for(auto& question : questions)
-  {
-    ++i;
-    std::cout << i << ". " << question.getQuestion() << "\n";
-    std::cout << question.getDummyAnswer(0) << "\t" << question.getDummyAnswer(1) << "\n";
-    std::cout << question.getDummyAnswer(2) << "\t" << question.getCorrectAnswer() << "[CORRECT]\n\n";
-     
-  }
 }
       
 Question Quiz::getQuestion(std::size_t id)
 {
   return questions.at(id);
+}
+      
+std::size_t Quiz::getQuestionCount()
+{
+  return questions.size();
 }

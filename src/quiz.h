@@ -13,6 +13,7 @@
       void loadFromFile(std::string filename);
 
       Question getQuestion(std::size_t id);
+      std::size_t getQuestionCount();
 
     private:
       std::string title{ "" };
