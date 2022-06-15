@@ -23,10 +23,11 @@
       void setText(std::string newText);
 
       void setColor(sf::Color color);
+      void setBackgroundColor(sf::Color color);
 
     private:
       sf::Text text{  };
-
+      sf::RectangleShape background{  };
   };
 
 #endif

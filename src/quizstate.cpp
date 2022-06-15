@@ -98,6 +98,44 @@ void QuizState::clickInput(sf::Vector2i clickInput, State& state)
 
 void QuizState::run(sf::RenderWindow& window)
 {
+  sf::Vector2i mousePos{ sf::Mouse::getPosition(window) };
+  if(buttons.at(0).isClicked(mousePos))
+  {
+    buttons.at(0).setBackgroundColor(Style::activeBackgroundColor);  
+  }
+  else
+  {
+    buttons.at(0).setBackgroundColor(Style::backgroundColor);
+  }
+  
+  if(buttons.at(1).isClicked(mousePos))
+  {
+    buttons.at(1).setBackgroundColor(Style::activeBackgroundColor);  
+  }
+  else
+  {
+    buttons.at(1).setBackgroundColor(Style::backgroundColor);
+  }
+  
+  if(buttons.at(2).isClicked(mousePos))
+  {
+    buttons.at(2).setBackgroundColor(Style::activeBackgroundColor);  
+  }
+  else
+  {
+    buttons.at(2).setBackgroundColor(Style::backgroundColor);
+  }
+  
+  if(buttons.at(3).isClicked(mousePos))
+  {
+    buttons.at(3).setBackgroundColor(Style::activeBackgroundColor);  
+  }
+  else
+  {
+    buttons.at(3).setBackgroundColor(Style::backgroundColor);
+  }
+
+
   window.draw(question);
   for(auto& button : buttons)
   {

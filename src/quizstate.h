@@ -8,6 +8,14 @@
   #include <SFML/Graphics.hpp>
   #include <vector>
 
+  enum class Phase
+  {
+    answerSelect,
+    resultGlimpse,
+    jumpscare,
+    resultDisplay
+  };
+
   class QuizState
   {
     public:
@@ -19,6 +27,8 @@
     private:
       void loadQuestion(std::size_t id);
       void reset();
+
+      Phase phase{ Phase::answerSelect };
 
       Quiz quiz{  };
       std::size_t currentQuestion{ 0 };
