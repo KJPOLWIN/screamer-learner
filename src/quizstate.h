@@ -44,6 +44,9 @@
       std::vector<TextButton> buttons{  };
 
       sf::Text questionCounter{  };
+
+      sf::Texture jumpscareTexture{  };
+      sf::Sprite jumpscare{  };
   };
 
 #endif

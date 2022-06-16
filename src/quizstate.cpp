@@ -32,6 +32,9 @@ QuizState::QuizState(sf::Font& font)
   questionCounter.setString(std::to_string(currentQuestion + 1) 
                           + "/" 
                           + std::to_string(quiz.getQuestionCount()));
+
+  jumpscareTexture.loadFromFile("jumpscare/image/testscreamer.png");
+  jumpscare.setTexture(jumpscareTexture);
 }
 
 void QuizState::clickInput(sf::Vector2i clickInput)
@@ -69,7 +72,15 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   if(phase == Phase::resultGlimpse && timer > resultGlimpseDuration)
   {
     timer = 0.0;
-    phase = Phase::jumpscare;
+
+    if(chosenAnswer == correctAnswer)
+    {
+      phase = Phase::resultDisplay;
+    }
+    else
+    {
+      phase = Phase::jumpscare;
+    }
   }
   
   if(phase == Phase::jumpscare && timer > jumpscareDuration)
@@ -152,12 +163,17 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   }
 
 
+
   window.draw(question);
   for(auto& button : buttons)
   {
     button.draw(window);
   }
   window.draw(questionCounter);
+  if(phase == Phase::jumpscare)
+  {
+    window.draw(jumpscare);
+  }
 }
   
 void QuizState::loadQuestion(std::size_t id)
