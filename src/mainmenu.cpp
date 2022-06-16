@@ -11,11 +11,17 @@ MainMenu::MainMenu(sf::Font& font)
     exitButton{ font, "Exit", sf::Vector2f(100.0f, 800.0f), 50 }
 {
   title.setPosition(100.0f, 100.0f);
+
   title.setFillColor(Style::textColor);
   startButton.setColor(Style::textColor);
   optionsButton.setColor(Style::textColor);
   creditsButton.setColor(Style::textColor);
   exitButton.setColor(Style::textColor);
+
+  startButton.setBackgroundColor(Style::backgroundColor);
+  optionsButton.setBackgroundColor(Style::backgroundColor);
+  creditsButton.setBackgroundColor(Style::backgroundColor);
+  exitButton.setBackgroundColor(Style::backgroundColor);
 }
       
 void MainMenu::clickInput(sf::Vector2i clickPosition, State& state)

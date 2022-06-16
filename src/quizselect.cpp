@@ -14,6 +14,9 @@ QuizSelect::QuizSelect(sf::Font& font)
   title.setFillColor(Style::textColor);
   startButton.setColor(Style::textColor);
   backButton.setColor(Style::textColor);
+
+  startButton.setBackgroundColor(Style::backgroundColor);
+  backButton.setBackgroundColor(Style::backgroundColor);
 }
       
 void QuizSelect::clickInput(sf::Vector2i clickPosition, State& state)

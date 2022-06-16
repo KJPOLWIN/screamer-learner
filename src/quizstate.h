@@ -21,17 +21,24 @@
     public:
       QuizState(sf::Font& font);
 
-      void clickInput(sf::Vector2i clickInput, State& state);
-      void run(sf::RenderWindow& window);
+      void clickInput(sf::Vector2i clickInput);
+      void run(double elapsedTime, sf::RenderWindow& window, State& state);
 
     private:
       void loadQuestion(std::size_t id);
       void reset();
 
       Phase phase{ Phase::answerSelect };
+      double timer{ 0.0 };
+
+      double resultGlimpseDuration{ 0.5 };
+      double jumpscareDuration{ 1.0 };
+      double resultDisplayDuration{ 3.0 };
 
       Quiz quiz{  };
       std::size_t currentQuestion{ 0 };
+      std::size_t correctAnswer{ 0 };
+      std::size_t chosenAnswer{ 0 };
 
       sf::Text question{  };
       std::vector<TextButton> buttons{  };

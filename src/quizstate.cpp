@@ -34,105 +34,121 @@ QuizState::QuizState(sf::Font& font)
                           + std::to_string(quiz.getQuestionCount()));
 }
 
-void QuizState::clickInput(sf::Vector2i clickInput, State& state)
+void QuizState::clickInput(sf::Vector2i clickInput)
 {
   if(buttons.at(0).isClicked(clickInput))
   {
-    ++currentQuestion;
-    if(currentQuestion >= quiz.getQuestionCount())
-    {
-      state = State::QuizSelect;
-      reset();
-    }
-    else
-    {
-      loadQuestion(currentQuestion);
-    }
+    phase = Phase::resultGlimpse;
+    chosenAnswer = 0;
   }
   else if(buttons.at(1).isClicked(clickInput))
   {
-    ++currentQuestion;
-    if(currentQuestion >= quiz.getQuestionCount())
-    {
-      state = State::QuizSelect;
-      reset();
-    }
-    else
-    {
-      loadQuestion(currentQuestion);
-    }
-    
+    phase = Phase::resultGlimpse;
+    chosenAnswer = 1;
   }
   else if(buttons.at(2).isClicked(clickInput))
   {
-    ++currentQuestion;
-    if(currentQuestion >= quiz.getQuestionCount())
-    {
-      state = State::QuizSelect;
-      reset();
-    }
-    else
-    {
-      loadQuestion(currentQuestion);
-    }
-    
+    phase = Phase::resultGlimpse;
+    chosenAnswer = 2;
   }
   else if(buttons.at(3).isClicked(clickInput))
   {
-    ++currentQuestion;
-    if(currentQuestion >= quiz.getQuestionCount())
-    {
-      state = State::QuizSelect;
-      reset();
-    }
-    else
-    {
-      loadQuestion(currentQuestion);
-    }
-    
+    phase = Phase::resultGlimpse;
+    chosenAnswer = 3;
   }
+  
   questionCounter.setString(std::to_string(currentQuestion + 1) 
                           + "/" 
                           + std::to_string(quiz.getQuestionCount()));
 }
 
-void QuizState::run(sf::RenderWindow& window)
+void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
 {
-  sf::Vector2i mousePos{ sf::Mouse::getPosition(window) };
-  if(buttons.at(0).isClicked(mousePos))
+  timer += elapsedTime;
+
+  if(phase == Phase::resultGlimpse && timer > resultGlimpseDuration)
   {
-    buttons.at(0).setBackgroundColor(Style::activeBackgroundColor);  
-  }
-  else
-  {
-    buttons.at(0).setBackgroundColor(Style::backgroundColor);
+    timer = 0.0;
+    phase = Phase::jumpscare;
   }
   
-  if(buttons.at(1).isClicked(mousePos))
+  if(phase == Phase::jumpscare && timer > jumpscareDuration)
   {
-    buttons.at(1).setBackgroundColor(Style::activeBackgroundColor);  
+    timer = 0.0;
+    phase = Phase::resultDisplay;
+  }
+
+  if(phase == Phase::resultDisplay && timer > resultDisplayDuration)
+  {
+    timer = 0.0;
+    phase = Phase::answerSelect;
+    ++currentQuestion;
+    if(currentQuestion >= quiz.getQuestionCount())
+    {
+      state = State::QuizSelect;
+      reset();
+    }
+    else
+    {
+      loadQuestion(currentQuestion);
+    }
+  }
+
+  if(phase == Phase::answerSelect)
+  {
+    sf::Vector2i mousePos{ sf::Mouse::getPosition(window) };
+   
+    buttons.at(0).setColor(Style::textColor);
+    buttons.at(1).setColor(Style::textColor);
+    buttons.at(2).setColor(Style::textColor);
+    buttons.at(3).setColor(Style::textColor);
+
+    if(buttons.at(0).isClicked(mousePos))
+    {
+      buttons.at(0).setBackgroundColor(Style::activeBackgroundColor);  
+    }
+    else
+    {
+      buttons.at(0).setBackgroundColor(Style::backgroundColor);
+    }
+    
+    if(buttons.at(1).isClicked(mousePos))
+    {
+      buttons.at(1).setBackgroundColor(Style::activeBackgroundColor);  
+    }
+    else
+    {
+      buttons.at(1).setBackgroundColor(Style::backgroundColor);
+    }
+    
+    if(buttons.at(2).isClicked(mousePos))
+    {
+      buttons.at(2).setBackgroundColor(Style::activeBackgroundColor);  
+    }
+    else
+    {
+      buttons.at(2).setBackgroundColor(Style::backgroundColor);
+    }
+      
+    if(buttons.at(3).isClicked(mousePos))
+    {
+      buttons.at(3).setBackgroundColor(Style::activeBackgroundColor);  
+    }
+    else
+    {
+      buttons.at(3).setBackgroundColor(Style::backgroundColor);
+    }
   }
   else
   {
-    buttons.at(1).setBackgroundColor(Style::backgroundColor);
-  }
-  
-  if(buttons.at(2).isClicked(mousePos))
-  {
-    buttons.at(2).setBackgroundColor(Style::activeBackgroundColor);  
-  }
-  else
-  {
-    buttons.at(2).setBackgroundColor(Style::backgroundColor);
-  }
-  
-  if(buttons.at(3).isClicked(mousePos))
-  {
-    buttons.at(3).setBackgroundColor(Style::activeBackgroundColor);  
-  }
-  else
-  {
-    buttons.at(3).setBackgroundColor(Style::backgroundColor);
+    if(chosenAnswer != correctAnswer)
+    {
+      buttons.at(chosenAnswer).setColor(Style::wrongAnswerColor);
+      buttons.at(chosenAnswer).setBackgroundColor(Style::wrongBackgroundColor);
+    }
+      
+    buttons.at(correctAnswer).setColor(Style::correctAnswerColor);
+    buttons.at(correctAnswer).setBackgroundColor(Style::correctBackgroundColor);
   }
 
 
@@ -151,6 +167,7 @@ void QuizState::loadQuestion(std::size_t id)
   buttons.at(1).setText(quiz.getQuestion(id).getDummyAnswer(1));
   buttons.at(2).setText(quiz.getQuestion(id).getDummyAnswer(2));
   buttons.at(3).setText(quiz.getQuestion(id).getCorrectAnswer());
+  correctAnswer = 3;
 }
 
 void QuizState::reset()

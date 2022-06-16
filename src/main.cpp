@@ -22,9 +22,13 @@ int main()
   QuizState quizState{ lato };
 
   sf::Event event{  };
+  sf::Clock clock{  };
+  double elapsedTime{ 0.0 };
   
   while(window.isOpen())
   {
+    elapsedTime = clock.restart().asSeconds();
+
     while(window.pollEvent(event))
     {
       if(event.type == sf::Event::Closed)
@@ -55,7 +59,7 @@ int main()
         }
         else if(state == State::Quiz)
         {
-          quizState.clickInput(clickPosition, state);
+          quizState.clickInput(clickPosition);
         }
       }
     }
@@ -73,7 +77,7 @@ int main()
       break;
 
       case State::Quiz:
-        quizState.run(window);
+        quizState.run(elapsedTime, window, state);
       break;
 
       case State::Credits:
