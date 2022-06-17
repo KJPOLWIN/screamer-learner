@@ -4,8 +4,10 @@
 #include "textbutton.h"
 #include "style.h"
 #include "state.h"
+#include "random.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <algorithm>
 
 QuizState::QuizState(sf::Font& font)
   : question{ "", font, 75 },
@@ -60,9 +62,6 @@ void QuizState::clickInput(sf::Vector2i clickInput)
     chosenAnswer = 3;
   }
   
-  questionCounter.setString(std::to_string(currentQuestion + 1) 
-                          + "/" 
-                          + std::to_string(quiz.getQuestionCount()));
 }
 
 void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
@@ -94,6 +93,9 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     timer = 0.0;
     phase = Phase::answerSelect;
     ++currentQuestion;
+    questionCounter.setString(std::to_string(currentQuestion + 1) 
+                            + "/" 
+                            + std::to_string(quiz.getQuestionCount()));
     if(currentQuestion >= quiz.getQuestionCount())
     {
       state = State::QuizSelect;
@@ -179,11 +181,22 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
 void QuizState::loadQuestion(std::size_t id)
 {
   question.setString(quiz.getQuestion(id).getQuestion());
-  buttons.at(0).setText(quiz.getQuestion(id).getDummyAnswer(0));
-  buttons.at(1).setText(quiz.getQuestion(id).getDummyAnswer(1));
-  buttons.at(2).setText(quiz.getQuestion(id).getDummyAnswer(2));
-  buttons.at(3).setText(quiz.getQuestion(id).getCorrectAnswer());
-  correctAnswer = 3;
+  
+  std::vector<std::size_t> pos{ 0, 1, 2, 3 };
+  std::shuffle(pos.begin(), pos.end(), Random::generator);
+
+  for(std::size_t iii{ 0 }; iii <= 3; ++iii)
+  {
+    if(pos.at(iii) == 3)
+    {
+      buttons.at(iii).setText(quiz.getQuestion(id).getCorrectAnswer());
+      correctAnswer = iii;
+    }
+    else
+    {
+      buttons.at(iii).setText(quiz.getQuestion(id).getDummyAnswer(pos.at(iii)));
+    }
+  }
 }
 
 void QuizState::reset()
