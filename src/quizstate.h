@@ -46,6 +46,8 @@
 
       sf::Text questionCounter{  };
 
+      std::size_t jumpscareId{  }; 
+
       std::vector<sf::Texture> jumpscareTexture{  };
       std::vector<sf::Sprite> jumpscare{  };
 

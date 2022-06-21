@@ -53,6 +53,23 @@ QuizState::QuizState(sf::Font& font)
   {
     jumpscare.at(iii).setTexture(jumpscareTexture.at(iii));
   }
+  
+  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
+  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
+  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
+
+  jumpscareSoundBuffer.at(0).loadFromFile("jumpscare/audio/scream1.wav");
+  jumpscareSoundBuffer.at(1).loadFromFile("jumpscare/audio/scream4.wav");
+  jumpscareSoundBuffer.at(2).loadFromFile("jumpscare/audio/SCREAM_4.wav");
+  
+  jumpscareSound.push_back(sf::Sound());
+  jumpscareSound.push_back(sf::Sound());
+  jumpscareSound.push_back(sf::Sound());
+ 
+  for(std::size_t iii{ 0 }; iii < jumpscareSound.size(); ++iii)
+  {
+    jumpscareSound.at(iii).setBuffer(jumpscareSoundBuffer.at(iii));
+  }
 
   yayBuffer.loadFromFile("ChildrenYaySoundEffect2.wav");
   yaySound.setBuffer(yayBuffer);
@@ -62,21 +79,25 @@ void QuizState::clickInput(sf::Vector2i clickInput)
 {
   if(buttons.at(0).isClicked(clickInput))
   {
+    timer = 0.0;
     phase = Phase::resultGlimpse;
     chosenAnswer = 0;
   }
   else if(buttons.at(1).isClicked(clickInput))
   {
+    timer = 0.0;
     phase = Phase::resultGlimpse;
     chosenAnswer = 1;
   }
   else if(buttons.at(2).isClicked(clickInput))
   {
+    timer = 0.0;
     phase = Phase::resultGlimpse;
     chosenAnswer = 2;
   }
   else if(buttons.at(3).isClicked(clickInput))
   {
+    timer = 0.0;
     phase = Phase::resultGlimpse;
     chosenAnswer = 3;
   }
@@ -98,12 +119,15 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     }
     else
     {
+      jumpscareId = Random::getRandomInt(0, jumpscare.size() - 1);
       phase = Phase::jumpscare;
+      jumpscareSound.at(jumpscareId).play();
     }
   }
   
   if(phase == Phase::jumpscare && timer > jumpscareDuration)
   {
+    jumpscareSound.at(jumpscareId).stop();
     timer = 0.0;
     phase = Phase::resultDisplay;
   }
@@ -194,7 +218,7 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   window.draw(questionCounter);
   if(phase == Phase::jumpscare)
   {
-    window.draw(jumpscare.at(0));
+    window.draw(jumpscare.at(jumpscareId));
   }
 }
   
