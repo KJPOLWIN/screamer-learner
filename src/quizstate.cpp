@@ -6,6 +6,7 @@
 #include "state.h"
 #include "random.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <algorithm>
 
@@ -35,8 +36,26 @@ QuizState::QuizState(sf::Font& font)
                           + "/" 
                           + std::to_string(quiz.getQuestionCount()));
 
-  jumpscareTexture.loadFromFile("jumpscare/image/testscreamer.png");
-  jumpscare.setTexture(jumpscareTexture);
+
+  jumpscareTexture.push_back(sf::Texture());
+  jumpscareTexture.push_back(sf::Texture());
+  jumpscareTexture.push_back(sf::Texture());
+
+  jumpscareTexture.at(0).loadFromFile("jumpscare/image/testscreamer1.png");
+  jumpscareTexture.at(1).loadFromFile("jumpscare/image/testscreamer2.png");
+  jumpscareTexture.at(2).loadFromFile("jumpscare/image/testscreamer3.png");
+  
+  jumpscare.push_back(sf::Sprite());
+  jumpscare.push_back(sf::Sprite());
+  jumpscare.push_back(sf::Sprite());
+ 
+  for(std::size_t iii{ 0 }; iii < jumpscare.size(); ++iii)
+  {
+    jumpscare.at(iii).setTexture(jumpscareTexture.at(iii));
+  }
+
+  yayBuffer.loadFromFile("ChildrenYaySoundEffect2.wav");
+  yaySound.setBuffer(yayBuffer);
 }
 
 void QuizState::clickInput(sf::Vector2i clickInput)
@@ -75,6 +94,7 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     if(chosenAnswer == correctAnswer)
     {
       phase = Phase::resultDisplay;
+      yaySound.play();
     }
     else
     {
@@ -174,7 +194,7 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   window.draw(questionCounter);
   if(phase == Phase::jumpscare)
   {
-    window.draw(jumpscare);
+    window.draw(jumpscare.at(0));
   }
 }
   

@@ -6,6 +6,7 @@
   #include "textbutton.h"
   #include "state.h"
   #include <SFML/Graphics.hpp>
+  #include <SFML/Audio.hpp>
   #include <vector>
 
   enum class Phase
@@ -45,8 +46,14 @@
 
       sf::Text questionCounter{  };
 
-      sf::Texture jumpscareTexture{  };
-      sf::Sprite jumpscare{  };
+      std::vector<sf::Texture> jumpscareTexture{  };
+      std::vector<sf::Sprite> jumpscare{  };
+
+      std::vector<sf::SoundBuffer> jumpscareSoundBuffer{  };
+      std::vector<sf::Sound> jumpscareSound{  };
+
+      sf::SoundBuffer yayBuffer{  };
+      sf::Sound yaySound{  };
   };
 
 #endif
