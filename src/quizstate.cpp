@@ -2,6 +2,7 @@
 #include "quiz.h"
 #include "question.h"
 #include "textbutton.h"
+#include "jumpscare.h"
 #include "style.h"
 #include "state.h"
 #include "random.h"
@@ -45,15 +46,6 @@ QuizState::QuizState(sf::Font& font)
   jumpscareTexture.at(1).loadFromFile("jumpscare/image/testscreamer2.png");
   jumpscareTexture.at(2).loadFromFile("jumpscare/image/testscreamer3.png");
   
-  jumpscare.push_back(sf::Sprite());
-  jumpscare.push_back(sf::Sprite());
-  jumpscare.push_back(sf::Sprite());
- 
-  for(std::size_t iii{ 0 }; iii < jumpscare.size(); ++iii)
-  {
-    jumpscare.at(iii).setTexture(jumpscareTexture.at(iii));
-  }
-  
   jumpscareSoundBuffer.push_back(sf::SoundBuffer());
   jumpscareSoundBuffer.push_back(sf::SoundBuffer());
   jumpscareSoundBuffer.push_back(sf::SoundBuffer());
@@ -62,14 +54,9 @@ QuizState::QuizState(sf::Font& font)
   jumpscareSoundBuffer.at(1).loadFromFile("jumpscare/audio/scream4.wav");
   jumpscareSoundBuffer.at(2).loadFromFile("jumpscare/audio/SCREAM_4.wav");
   
-  jumpscareSound.push_back(sf::Sound());
-  jumpscareSound.push_back(sf::Sound());
-  jumpscareSound.push_back(sf::Sound());
- 
-  for(std::size_t iii{ 0 }; iii < jumpscareSound.size(); ++iii)
-  {
-    jumpscareSound.at(iii).setBuffer(jumpscareSoundBuffer.at(iii));
-  }
+  jumpscares.push_back(Jumpscare(jumpscareTexture.at(0), jumpscareSoundBuffer.at(0)));
+  jumpscares.push_back(Jumpscare(jumpscareTexture.at(1), jumpscareSoundBuffer.at(1)));
+  jumpscares.push_back(Jumpscare(jumpscareTexture.at(2), jumpscareSoundBuffer.at(2)));
 
   yayBuffer.loadFromFile("ChildrenYaySoundEffect2.wav");
   yaySound.setBuffer(yayBuffer);
@@ -119,15 +106,15 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     }
     else
     {
-      jumpscareId = Random::getRandomInt(0, jumpscare.size() - 1);
+      jumpscareId = Random::getRandomInt(0, jumpscares.size() - 1);
       phase = Phase::jumpscare;
-      jumpscareSound.at(jumpscareId).play();
+      jumpscares.at(jumpscareId).play();
     }
   }
   
   if(phase == Phase::jumpscare && timer > jumpscareDuration)
   {
-    jumpscareSound.at(jumpscareId).stop();
+    jumpscares.at(jumpscareId).stop();
     timer = 0.0;
     phase = Phase::resultDisplay;
   }
@@ -218,7 +205,7 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   window.draw(questionCounter);
   if(phase == Phase::jumpscare)
   {
-    window.draw(jumpscare.at(jumpscareId));
+    jumpscares.at(jumpscareId).draw(window);
   }
 }
   

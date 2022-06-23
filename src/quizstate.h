@@ -4,6 +4,7 @@
   #include "quiz.h"
   #include "question.h"
   #include "textbutton.h"
+  #include "jumpscare.h"
   #include "state.h"
   #include <SFML/Graphics.hpp>
   #include <SFML/Audio.hpp>
@@ -49,10 +50,12 @@
       std::size_t jumpscareId{  }; 
 
       std::vector<sf::Texture> jumpscareTexture{  };
-      std::vector<sf::Sprite> jumpscare{  };
-
       std::vector<sf::SoundBuffer> jumpscareSoundBuffer{  };
-      std::vector<sf::Sound> jumpscareSound{  };
+      
+      std::vector<Jumpscare> jumpscares{  };
+
+      //std::vector<sf::Sprite> jumpscare{  };
+      //std::vector<sf::Sound> jumpscareSound{  };
 
       sf::SoundBuffer yayBuffer{  };
       sf::Sound yaySound{  };

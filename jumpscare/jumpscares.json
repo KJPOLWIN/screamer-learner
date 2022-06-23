@@ -1,0 +1,16 @@
+{
+  "jumpscares": [
+    {
+      "image": "testscreamer1.png",
+      "audio": "scream1.wav"
+    },
+    {
+      "image": "testscreamer2.png",
+      "audio": "scream4.wav"
+    },
+    {
+      "image": "testscreamer3.png",
+      "audio": "SCREAM_4.wav"
+    }
+  ]
+}
