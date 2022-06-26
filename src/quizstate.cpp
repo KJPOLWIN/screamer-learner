@@ -8,7 +8,10 @@
 #include "random.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "json.hpp"
 #include <vector>
+#include <string>
+#include <fstream>
 #include <algorithm>
 
 QuizState::QuizState(sf::Font& font)
@@ -28,7 +31,7 @@ QuizState::QuizState(sf::Font& font)
   buttons.at(3).setColor(Style::textColor);
 
   questionCounter.setPosition(1700, 50);
-  questionCounter.setColor(Style::textColor);
+  questionCounter.setFillColor(Style::textColor);
 
   quiz.loadFromFile("quiz/testquiz.json"); 
   loadQuestion(currentQuestion);
@@ -37,27 +40,29 @@ QuizState::QuizState(sf::Font& font)
                           + "/" 
                           + std::to_string(quiz.getQuestionCount()));
 
+  std::fstream file{ "jumpscare/jumpscares.json" };
+  nlohmann::json jumpscareData{  };
+  file >> jumpscareData;
 
-  jumpscareTexture.push_back(sf::Texture());
-  jumpscareTexture.push_back(sf::Texture());
-  jumpscareTexture.push_back(sf::Texture());
+  std::size_t jumpscareCount{ jumpscareData["jumpscares"].size() };
 
-  jumpscareTexture.at(0).loadFromFile("jumpscare/image/testscreamer1.png");
-  jumpscareTexture.at(1).loadFromFile("jumpscare/image/testscreamer2.png");
-  jumpscareTexture.at(2).loadFromFile("jumpscare/image/testscreamer3.png");
+  for(std::size_t iii{ 0 }; iii < jumpscareCount; ++iii)
+  {
+    jumpscareTexture.push_back(sf::Texture());
+    jumpscareTexture.at(iii).loadFromFile("jumpscare/image/" 
+        + static_cast<std::string>(jumpscareData["jumpscares"][iii]["image"]));
+    
+    jumpscareSoundBuffer.push_back(sf::SoundBuffer());
+    jumpscareSoundBuffer.at(iii).loadFromFile("jumpscare/audio/" 
+        + static_cast<std::string>(jumpscareData["jumpscares"][iii]["audio"]));
+  }
+  //For some reason, not all sprites will load textures if adding jumpscares
+  //to vector is placed in above loop
+  for(std::size_t iii{ 0 }; iii < jumpscareCount; ++iii)
+  {
+    jumpscares.push_back(Jumpscare(jumpscareTexture.at(iii), jumpscareSoundBuffer.at(iii)));
+  }
   
-  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
-  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
-  jumpscareSoundBuffer.push_back(sf::SoundBuffer());
-
-  jumpscareSoundBuffer.at(0).loadFromFile("jumpscare/audio/scream1.wav");
-  jumpscareSoundBuffer.at(1).loadFromFile("jumpscare/audio/scream4.wav");
-  jumpscareSoundBuffer.at(2).loadFromFile("jumpscare/audio/SCREAM_4.wav");
-  
-  jumpscares.push_back(Jumpscare(jumpscareTexture.at(0), jumpscareSoundBuffer.at(0)));
-  jumpscares.push_back(Jumpscare(jumpscareTexture.at(1), jumpscareSoundBuffer.at(1)));
-  jumpscares.push_back(Jumpscare(jumpscareTexture.at(2), jumpscareSoundBuffer.at(2)));
-
   yayBuffer.loadFromFile("ChildrenYaySoundEffect2.wav");
   yaySound.setBuffer(yayBuffer);
 }
@@ -106,7 +111,7 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     }
     else
     {
-      jumpscareId = Random::getRandomInt(0, jumpscares.size() - 1);
+      jumpscareId = static_cast<std::size_t>(Random::getRandomInt(0, jumpscares.size() - 1));
       phase = Phase::jumpscare;
       jumpscares.at(jumpscareId).play();
     }

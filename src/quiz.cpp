@@ -2,7 +2,6 @@
 #include "json.hpp"
 #include <vector>
 #include <fstream>
-#include <iostream>
 
 Quiz::Quiz()
 {
