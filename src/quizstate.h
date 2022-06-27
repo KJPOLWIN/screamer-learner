@@ -25,6 +25,7 @@
 
       void clickInput(sf::Vector2i clickInput);
       void run(double elapsedTime, sf::RenderWindow& window, State& state);
+      void loadQuiz(std::string filename);
 
     private:
       void loadQuestion(std::size_t id);
@@ -53,9 +54,6 @@
       std::vector<sf::SoundBuffer> jumpscareSoundBuffer{  };
       
       std::vector<Jumpscare> jumpscares{  };
-
-      //std::vector<sf::Sprite> jumpscare{  };
-      //std::vector<sf::Sound> jumpscareSound{  };
 
       sf::SoundBuffer yayBuffer{  };
       sf::Sound yaySound{  };

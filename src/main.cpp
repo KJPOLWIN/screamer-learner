@@ -6,6 +6,8 @@
 #include "style.h"
 #include <SFML/Graphics.hpp>
 
+  #include <iostream>
+
 int main()
 {
   sf::RenderWindow window(sf::VideoMode(1920, 1080), "", sf::Style::Fullscreen);
@@ -16,6 +18,7 @@ int main()
   lato.loadFromFile("font/Lato-Regular.ttf");
 
   State state{ State::MainMenu };
+  State previousState{ State::MainMenu };
   MainMenu mainMenu{ lato };
   Options options{ lato };
   QuizSelect quizSelect{ lato };
@@ -77,6 +80,11 @@ int main()
       break;
 
       case State::Quiz:
+        if(previousState == State::QuizSelect)
+        {
+          quizState.loadQuiz(quizSelect.getSelectedQuizFilename());
+        }
+
         quizState.run(elapsedTime, window, state);
       break;
 
@@ -91,6 +99,8 @@ int main()
         window.close();
       break;
     }
+
+    previousState = state;
 
     window.display();
   }

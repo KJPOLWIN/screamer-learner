@@ -33,13 +33,6 @@ QuizState::QuizState(sf::Font& font)
   questionCounter.setPosition(1700, 50);
   questionCounter.setFillColor(Style::textColor);
 
-  quiz.loadFromFile("quiz/testquiz.json"); 
-  loadQuestion(currentQuestion);
-
-  questionCounter.setString(std::to_string(currentQuestion + 1) 
-                          + "/" 
-                          + std::to_string(quiz.getQuestionCount()));
-
   std::fstream file{ "jumpscare/jumpscares.json" };
   nlohmann::json jumpscareData{  };
   file >> jumpscareData;
@@ -200,8 +193,6 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     buttons.at(correctAnswer).setBackgroundColor(Style::correctBackgroundColor);
   }
 
-
-
   window.draw(question);
   for(auto& button : buttons)
   {
@@ -212,6 +203,16 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
   {
     jumpscares.at(jumpscareId).draw(window);
   }
+}
+
+void QuizState::loadQuiz(std::string filename)
+{
+  quiz.loadFromFile(filename); 
+  loadQuestion(currentQuestion);
+
+  questionCounter.setString(std::to_string(currentQuestion + 1) 
+                          + "/" 
+                          + std::to_string(quiz.getQuestionCount()));
 }
   
 void QuizState::loadQuestion(std::size_t id)
