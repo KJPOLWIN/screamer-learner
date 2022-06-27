@@ -18,7 +18,6 @@
 
     private:
       sf::Text title{  };
-      TextButton startButton{  };
       TextButton backButton{  };
       std::vector<TextButton> quizButtons{  };
       std::vector<std::string> filenames{  };
