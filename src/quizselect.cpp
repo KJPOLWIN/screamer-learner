@@ -92,7 +92,8 @@ void QuizSelect::scrollInput(int direction)
 
     scroll += 100 * direction;
     double scrollMenuHeight{ scrollMenuDrawingEnd - scrollMenuDrawingBegin };
-    scrollbar.setPosition(scrollbar.getPosition().x, scrollMenuDrawingBegin - scroll);
+    double scrollAreaHeight{ quizButtons.size() * 100.0 };
+    scrollbar.setPosition(scrollbar.getPosition().x, scrollMenuDrawingBegin - (scroll / scrollAreaHeight) * scrollMenuHeight);
   }
 }
 
