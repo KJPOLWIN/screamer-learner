@@ -16,10 +16,10 @@
 
 QuizState::QuizState(sf::Font& font)
   : question{ "", font, 75 },
-    buttons{ { TextButton(font, "", sf::Vector2f(100, 500), 50),
-               TextButton(font, "", sf::Vector2f(100, 600), 50),
-               TextButton(font, "", sf::Vector2f(100, 700), 50),
-               TextButton(font, "", sf::Vector2f(100, 800), 50) } },
+    buttons{ { FieldButton(font, "", 50, sf::Vector2f(100, 350), sf::Vector2f(860, 300)),
+               FieldButton(font, "", 50, sf::Vector2f(100, 650), sf::Vector2f(860, 300)),
+               FieldButton(font, "", 50, sf::Vector2f(960, 350), sf::Vector2f(860, 300)),
+               FieldButton(font, "", 50, sf::Vector2f(960, 650), sf::Vector2f(860, 300)) } },
     questionCounter{ "", font, 50 }
 {
   question.setPosition(100, 100);

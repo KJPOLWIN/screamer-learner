@@ -19,8 +19,6 @@ QuizSelect::QuizSelect(sf::Font& font)
   title.setFillColor(Style::textColor);
   backButton.setColor(Style::textColor);
 
-  backButton.setBackgroundColor(Style::backgroundColor);
-  
   for(auto& file : std::filesystem::directory_iterator("quiz"))
   {
     filenames.push_back(file.path().u8string());
@@ -37,7 +35,6 @@ QuizSelect::QuizSelect(sf::Font& font)
                                      data["title"], 
                                      sf::Vector2f(100.0f, 200.0f + iii * 100.0f), 
                                      50));
-    quizButtons.at(iii).setBackgroundColor(Style::backgroundColor);
   }
 }
       

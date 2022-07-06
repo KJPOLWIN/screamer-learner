@@ -3,7 +3,7 @@
 
   #include "quiz.h"
   #include "question.h"
-  #include "textbutton.h"
+  #include "fieldbutton.h"
   #include "jumpscare.h"
   #include "state.h"
   #include <SFML/Graphics.hpp>
@@ -44,7 +44,7 @@
       std::size_t chosenAnswer{ 0 };
 
       sf::Text question{  };
-      std::vector<TextButton> buttons{  };
+      std::vector<FieldButton> buttons{  };
 
       sf::Text questionCounter{  };
 

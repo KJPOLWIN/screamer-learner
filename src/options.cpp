@@ -12,8 +12,6 @@ Options::Options(sf::Font& font)
 
   title.setFillColor(Style::textColor);
   backButton.setColor(Style::textColor);
-
-  backButton.setBackgroundColor(Style::backgroundColor);
 }
       
 void Options::clickInput(sf::Vector2i clickPosition, State& state)

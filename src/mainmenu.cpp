@@ -17,11 +17,6 @@ MainMenu::MainMenu(sf::Font& font)
   optionsButton.setColor(Style::textColor);
   creditsButton.setColor(Style::textColor);
   exitButton.setColor(Style::textColor);
-
-  startButton.setBackgroundColor(Style::backgroundColor);
-  optionsButton.setBackgroundColor(Style::backgroundColor);
-  creditsButton.setBackgroundColor(Style::backgroundColor);
-  exitButton.setBackgroundColor(Style::backgroundColor);
 }
       
 void MainMenu::clickInput(sf::Vector2i clickPosition, State& state)
