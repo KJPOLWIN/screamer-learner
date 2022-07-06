@@ -1,0 +1,10 @@
+{
+  "title": "Ninth test quiz",
+  "questions": [
+    {
+      "question": "Chose correct answer:",
+      "dummyAnswers": ["Wrong answer", "Wrong answer", "Wrong answer"],
+      "correctAnswer": "Correct answer"
+    }
+  ]
+}

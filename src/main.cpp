@@ -65,6 +65,13 @@ int main()
           quizState.clickInput(clickPosition);
         }
       }
+      else if(event.type == sf::Event::MouseWheelScrolled)
+      {
+        if(state == State::QuizSelect)
+        {
+          quizSelect.scrollInput(event.mouseWheelScroll.delta);
+        }
+      }
     }
 
     window.clear(Style::backgroundColor);

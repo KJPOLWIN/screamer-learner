@@ -12,6 +12,7 @@
       QuizSelect(sf::Font& font);
 
       void clickInput(sf::Vector2i clickPosition, State& state);
+      void scrollInput(int direction);
       void run(sf::RenderWindow& window);
 
       std::string getSelectedQuizFilename();
@@ -21,6 +22,16 @@
       TextButton backButton{  };
       std::vector<TextButton> quizButtons{  };
       std::vector<std::string> filenames{  };
+
+      double scrollMenuDrawingBegin{ 240.0 };
+      double scrollMenuDrawingEnd{ 910.0 };
+
+      sf::RectangleShape scrollMenuBegin{  };
+      sf::RectangleShape scrollMenuEnd{  };
+
+      sf::RectangleShape scrollbar{  };
+
+      double scroll{ 0 };
 
       std::size_t selectedQuizFilename{ 0 };
   };
