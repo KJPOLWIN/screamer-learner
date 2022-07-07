@@ -58,6 +58,8 @@ QuizState::QuizState(sf::Font& font)
   
   yayBuffer.loadFromFile("ChildrenYaySoundEffect2.wav");
   yaySound.setBuffer(yayBuffer);
+
+  resultGlimpseDuration = Random::getRandomDouble(0.0, 0.5);
 }
 
 void QuizState::clickInput(sf::Vector2i clickInput)
@@ -134,6 +136,8 @@ void QuizState::run(double elapsedTime, sf::RenderWindow& window, State& state)
     {
       loadQuestion(currentQuestion);
     }
+  
+    resultGlimpseDuration = Random::getRandomDouble(0.0, 0.5);
   }
 
   if(phase == Phase::answerSelect)

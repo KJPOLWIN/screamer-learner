@@ -13,6 +13,12 @@
       return dist(generator);
     }
 
+    double getRandomDouble(double min, double max)
+    {
+      std::uniform_real_distribution dist{ min, max };
+      return dist(generator);
+    }
+
     bool testForProbability(double chance)
     {
       int threshold{ static_cast<int>(chance * 100) };
