@@ -7,8 +7,7 @@
 #include <filesystem>
 #include <vector>
 #include <fstream>
-
-#include <iostream>
+#include <cmath>
 
 QuizSelect::QuizSelect(sf::Font& font)
   : title{ "Select quiz", font, 75 },
@@ -46,15 +45,16 @@ QuizSelect::QuizSelect(sf::Font& font)
   scrollMenuBegin.setFillColor(Style::backgroundColor);
   scrollMenuEnd.setFillColor(Style::backgroundColor);
 
-  double scrollMenuHeight{ scrollMenuDrawingEnd - scrollMenuDrawingBegin };
-  double buttonsHeight{ 250.0f + quizButtons.size() * 100.0f };
-  if(buttonsHeight < scrollMenuHeight)
+  scrollMenuHeight = scrollMenuDrawingEnd - scrollMenuDrawingBegin;
+  if(quizButtons.size() * 100 < scrollMenuHeight)
   {
     scrollbar.setSize(sf::Vector2f(10, scrollMenuHeight));
   }
   else
   {
-    scrollbar.setSize(sf::Vector2f(10, pow(scrollMenuHeight, 2) / buttonsHeight));
+    scrollbar.setSize(sf::Vector2f(10, 
+                                   (ceil(scrollMenuHeight / 100) / quizButtons.size())
+                                   * scrollMenuHeight));
   }
   scrollbar.setPosition(1900.0f, scrollMenuDrawingBegin);
   scrollbar.setFillColor(Style::textColor);
@@ -90,10 +90,10 @@ void QuizSelect::scrollInput(int direction)
                                       button.getPosition().y + 100 * direction));
     }
 
-    scroll += 100 * direction;
-    double scrollMenuHeight{ scrollMenuDrawingEnd - scrollMenuDrawingBegin };
-    double scrollAreaHeight{ quizButtons.size() * 100.0 };
-    scrollbar.setPosition(scrollbar.getPosition().x, scrollMenuDrawingBegin - (scroll / scrollAreaHeight) * scrollMenuHeight);
+    scroll -= direction;
+    scrollbar.setPosition(scrollbar.getPosition().x, 
+                          scrollMenuDrawingBegin 
+                          + (static_cast<double>(scroll) / quizButtons.size()) * scrollMenuHeight);
   }
 }
 

@@ -25,13 +25,14 @@
 
       double scrollMenuDrawingBegin{ 240.0 };
       double scrollMenuDrawingEnd{ 910.0 };
+      double scrollMenuHeight{  };
 
       sf::RectangleShape scrollMenuBegin{  };
       sf::RectangleShape scrollMenuEnd{  };
 
       sf::RectangleShape scrollbar{  };
 
-      double scroll{ 0 };
+      int scroll{ 0 };
 
       std::size_t selectedQuizFilename{ 0 };
   };
