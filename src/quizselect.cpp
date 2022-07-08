@@ -9,6 +9,8 @@
 #include <fstream>
 #include <cmath>
 
+  #include <iostream>
+
 QuizSelect::QuizSelect(sf::Font& font)
   : title{ "Select quiz", font, 75 },
     backButton{ font, "Go back", sf::Vector2f(100.0f, 930.0f), 50 },
@@ -48,7 +50,7 @@ QuizSelect::QuizSelect(sf::Font& font)
   scrollMenuHeight = scrollMenuDrawingEnd - scrollMenuDrawingBegin;
   if(quizButtons.size() * 100 < scrollMenuHeight)
   {
-    scrollbar.setSize(sf::Vector2f(10, scrollMenuHeight));
+    scrollbar.setSize(sf::Vector2f(15, scrollMenuHeight));
   }
   else
   {
@@ -56,8 +58,60 @@ QuizSelect::QuizSelect(sf::Font& font)
                                    (ceil(scrollMenuHeight / 100) / quizButtons.size())
                                    * scrollMenuHeight));
   }
-  scrollbar.setPosition(1900.0f, scrollMenuDrawingBegin);
+  scrollbar.setPosition(1920.0f - 25.0f, scrollMenuDrawingBegin);
   scrollbar.setFillColor(Style::textColor);
+}
+
+void QuizSelect::onMouseButtonPressed(sf::Vector2i clickPosition)
+{ 
+  if(scrollbar.getGlobalBounds().contains(clickPosition.x, clickPosition.y))
+  {
+    if(!isClicked)
+    {
+      clickOffset = clickPosition.y;
+    }
+    
+    isClicked = true;
+  }
+
+  if(isClicked == true)
+  {
+    scrollbar.setPosition(scrollbar.getPosition().x, 
+                          scrollbar.getPosition().y + clickPosition.y - clickOffset);
+    clickOffset = clickPosition.y;
+    
+    if(scrollbar.getPosition().y < scrollMenuDrawingBegin)
+    {
+      scrollbar.setPosition(scrollbar.getPosition().x, 
+                            scrollMenuDrawingBegin);
+    }
+    else if(scrollbar.getPosition().y + scrollbar.getSize().y > scrollMenuDrawingEnd)
+    {
+      scrollbar.setPosition(scrollbar.getPosition().x, 
+                            scrollMenuDrawingEnd - scrollbar.getSize().y);
+    } 
+
+    double posInMenu{ scrollbar.getPosition().y - scrollMenuDrawingBegin };
+    double chosenElem{ round((posInMenu / scrollMenuHeight) * quizButtons.size()) };
+
+    std::cout << round(posInMenu / scrollMenuHeight) << "\n";
+    std::cout << chosenElem << "\n\n";
+
+    if(scroll != chosenElem)
+    {
+      for(auto& button : quizButtons)
+      {
+        button.setPosition(sf::Vector2f(button.getPosition().x, 
+                                        button.getPosition().y + 100 * (scroll - chosenElem)));
+      }
+
+      scroll = chosenElem;
+
+      
+     //(static_cast<double>(scroll) / quizButtons.size()) * scrollMenuHeight);
+      
+    }
+  }
 }
       
 void QuizSelect::clickInput(sf::Vector2i clickPosition, State& state)
@@ -77,6 +131,8 @@ void QuizSelect::clickInput(sf::Vector2i clickPosition, State& state)
       }
     }
   }
+
+  isClicked = false;
 }
 
 void QuizSelect::scrollInput(int direction)
@@ -96,7 +152,7 @@ void QuizSelect::scrollInput(int direction)
                           + (static_cast<double>(scroll) / quizButtons.size()) * scrollMenuHeight);
   }
 }
-
+      
 void QuizSelect::run(sf::RenderWindow& window)
 {
   for(auto& button : quizButtons)

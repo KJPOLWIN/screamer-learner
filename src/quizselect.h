@@ -11,6 +11,7 @@
     public:
       QuizSelect(sf::Font& font);
 
+      void onMouseButtonPressed(sf::Vector2i clickPosition);
       void clickInput(sf::Vector2i clickPosition, State& state);
       void scrollInput(int direction);
       void run(sf::RenderWindow& window);
@@ -33,6 +34,9 @@
       sf::RectangleShape scrollbar{  };
 
       int scroll{ 0 };
+
+      bool isClicked{ false };
+      double clickOffset{ 0.0 };
 
       std::size_t selectedQuizFilename{ 0 };
   };

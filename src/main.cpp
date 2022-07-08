@@ -44,7 +44,7 @@ int main()
         window.close();
       }
       else if(event.type == sf::Event::MouseButtonReleased
-          && event.mouseButton.button == sf::Mouse::Left)
+           && event.mouseButton.button == sf::Mouse::Left)
       {
         sf::Vector2i clickPosition{ sf::Mouse::getPosition(window) };
 
@@ -70,6 +70,15 @@ int main()
         if(state == State::QuizSelect)
         {
           quizSelect.scrollInput(event.mouseWheelScroll.delta);
+        }
+      }
+      else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+      {
+        sf::Vector2i clickPosition{ sf::Mouse::getPosition(window) };
+
+        if(state == State::QuizSelect)
+        {
+          quizSelect.onMouseButtonPressed(clickPosition);
         }
       }
     }
